@@ -1,34 +1,15 @@
 version: '3'
 services:
-  # # mysqlの場合
-  # db:
-  #   image: mysql:8.0.32
-  #   # MySQLコンテナの動作に必要な環境変数を設定
-  #   environment:
-  #     # MySQLのrootユーザー（管理者ユーザー）のパスワードを設定
-  #     MYSQL_ROOT_PASSWORD: password
-  #     # コンテナ起動時に自動で作成されるデータベースの名前を指定
-  #     MYSQL_DATABASE: live-chat-rails_development
-  #     # 作成されるデータベースにアクセスするための新しいユーザーを指定
-  #     MYSQL_USER: user
-  #     # 上で指定したMYSQL_USERのパスワードを設定
-  #     MYSQL_PASSWORD: password
-  #   # MySQLデフォルトポート3306を、ホストマシンのポート3307にマッピング
-  #   ports:
-  #     - "3307:3306"
-  #   # MySQLのデータが保存されるディレクトリ/var/lib/mysqlを、mysql_dataという名前のボリュームにマウント
-  #   volumes:
-  #     - mysql_data:/var/lib/mysql
-
   rails:
     # ./railsをビルドコンテキストに指定
     build:
       context: ./live-chat-rails
+      dockerfile: Dockerfile
     # 1 コンテナ内で実行される、Railsのサーバーを起動するコマンドを指定
     command: bash -c "bundle exec rails s -b '0.0.0.0'"
     # ホストマシンの./railsディレクトリを、コンテナ内の/live-chat-railsディレクトリにマウント
     volumes:
-      - ./rails:/live-chat-rails
+      - ./live-chat-rails:/live-chat-rails
     # Railsサーバーのデフォルトポート3000を、ホストマシンのポート3000にマッピング
     ports:
       - 3000:3000

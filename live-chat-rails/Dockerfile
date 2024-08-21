@@ -9,9 +9,9 @@ COPY Gemfile /live-chat-rails/Gemfile
 COPY Gemfile.lock /live-chat-rails/Gemfile.lock
 
 # RubyGemsを最新バージョンに更新
-RUN gem update --system
+# RUN gem update --system
 # Bundlerを最新バージョンに更新
-RUN bundle update --bundler
+# RUN bundle update --bundler
 
 RUN bundle install
 COPY . /live-chat-rails
