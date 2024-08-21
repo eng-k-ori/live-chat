@@ -1,0 +1,60 @@
+version: '3'
+services:
+  # # mysqlの場合
+  # db:
+  #   image: mysql:8.0.32
+  #   # MySQLコンテナの動作に必要な環境変数を設定
+  #   environment:
+  #     # MySQLのrootユーザー（管理者ユーザー）のパスワードを設定
+  #     MYSQL_ROOT_PASSWORD: password
+  #     # コンテナ起動時に自動で作成されるデータベースの名前を指定
+  #     MYSQL_DATABASE: live-chat-rails_development
+  #     # 作成されるデータベースにアクセスするための新しいユーザーを指定
+  #     MYSQL_USER: user
+  #     # 上で指定したMYSQL_USERのパスワードを設定
+  #     MYSQL_PASSWORD: password
+  #   # MySQLデフォルトポート3306を、ホストマシンのポート3307にマッピング
+  #   ports:
+  #     - "3307:3306"
+  #   # MySQLのデータが保存されるディレクトリ/var/lib/mysqlを、mysql_dataという名前のボリュームにマウント
+  #   volumes:
+  #     - mysql_data:/var/lib/mysql
+
+  rails:
+    # ./railsをビルドコンテキストに指定
+    build:
+      context: ./live-chat-rails
+    # 1 コンテナ内で実行される、Railsのサーバーを起動するコマンドを指定
+    command: bash -c "bundle exec rails s -b '0.0.0.0'"
+    # ホストマシンの./railsディレクトリを、コンテナ内の/live-chat-railsディレクトリにマウント
+    volumes:
+      - ./rails:/live-chat-rails
+    # Railsサーバーのデフォルトポート3000を、ホストマシンのポート3000にマッピング
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+    tty: true
+    stdin_open: true
+
+# # Dockerが使用する永続的なストレージを定義する部分
+# volumes:
+#   # mysql_dataという名前でMySQLのDBのデータを永続化。
+#   mysql_data:
+
+# @          @@          @@          @@          @@          @@          @@          @@          @
+# 1
+# bash -c "bundle exec rails s -b '0.0.0.0'"
+# bash -c
+# -cは、後続の文字列をコマンドとして実行するオプション
+# この方法を使う理由は、docker-compose内で複数のコマンドをbashで実行する必要があるため。bash -cを使うことで、
+# Dockerコンテナ内で任意のコマンドを柔軟に実行できる。
+# ------------------------------------------------------------------------------------------------
+# bundle exec
+# Gemfile.lockに書かれているバージョンのgemが動く
+# ------------------------------------------------------------------------------------------------
+# -b '0.0.0.0'
+# -bオプションは、Railsサーバーがバインド（接続）するIPアドレスを指定するもの。
+# '0.0.0.0'は、すべてのネットワークインターフェースでサーバーが接続を受け付けることを意味している。
+# コンテナ内部のサーバーに外部（例えばホストマシン）からアクセスできるようにするため。デフォルトでは、Railsサーバーは
+# localhostでのみリクエストを受け付けるが、0.0.0.0にバインドすることで、コンテナ外部からもアクセス可能になる。
