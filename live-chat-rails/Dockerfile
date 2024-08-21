@@ -1,5 +1,5 @@
 # バージョンは適宜変更
-FROM ruby:2.7.1
+FROM ruby:2.6.4
 # パッケージリストを最新の状態に更新し、vimをインストールする
 RUN apt-get update -qq && apt-get install -y vim
 
