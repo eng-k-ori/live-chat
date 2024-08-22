@@ -1,15 +1,15 @@
 # 1 適宜変更
-ddu:
-	docker-compose -f docker-compose.dev.yml up --force-recreate
+du:
+	docker-compose up --force-recreate
 
-ddb:
-	docker-compose -f docker-compose.dev.yml build
+db:
+	docker-compose build
 
-ddbn:
-	docker-compose -f docker-compose.dev.yml build --no-cache
+dbn:
+	docker-compose build --no-cache
 
-dpu:
-	docker-compose -f docker-compose.prod.yml up --force-recreate
+duf:
+	docker-compose up --force-recreate
 
 dpb:
 	docker-compose -f docker-compose.prod.yml build
