@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
   include DeviseTokenAuth::Concerns::User
   # 複数のレコードを保持する
   has_many :messages
+  has_many :likes
   validates :name, presence: true
   validates :name, length: { maximum: 30 }
 end
