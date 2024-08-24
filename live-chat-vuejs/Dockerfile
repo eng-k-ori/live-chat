@@ -11,7 +11,7 @@ RUN apt-get update && \
 # ポート8080を公開（Vue CLIのデフォルトポート）
 EXPOSE 8080
 # 1 Vue CLIで開発サーバーを起動する
-# CMD ["npm", "run", "serve"]
+CMD ["npm", "run", "serve"]
 
 # @          @@          @@          @@          @@          @@          @@          @@          @
 # 1

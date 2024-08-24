@@ -28,7 +28,7 @@ services:
       - rails
     tty: true
     # 2 --host を指定することで、0.0.0.0にバインド: --host オプションを使用して 0.0.0.0 にバインドする
-    # command: npm run serve --host
+    command: npm run serve --host
 
 # # Dockerが使用する永続的なストレージを定義する部分
 # volumes:
