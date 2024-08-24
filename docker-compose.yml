@@ -16,6 +16,20 @@ services:
     tty: true
     stdin_open: true
 
+  vue:
+    build:
+      context: ./live-chat-vuejs
+      dockerfile: Dockerfile
+    volumes:
+      - ./live-chat-vuejs:/live-chat-vuejs
+    ports:
+      - '8080:8080'
+    depends_on:
+      - rails
+    tty: true
+    # 2 --host を指定することで、0.0.0.0にバインド: --host オプションを使用して 0.0.0.0 にバインドする
+    command: npm run serve --host
+
 # # Dockerが使用する永続的なストレージを定義する部分
 # volumes:
 #   # mysql_dataという名前でMySQLのDBのデータを永続化。
@@ -37,3 +51,23 @@ services:
 # '0.0.0.0'は、すべてのネットワークインターフェースでサーバーが接続を受け付けることを意味している。
 # コンテナ内部のサーバーに外部（例えばホストマシン）からアクセスできるようにするため。デフォルトでは、Railsサーバーは
 # localhostでのみリクエストを受け付けるが、0.0.0.0にバインドすることで、コンテナ外部からもアクセス可能になる。
+
+################################################################################################
+# 2
+# npm run serve
+# Vue CLIの開発サーバーを起動するコマンド。
+# serve は package.json の scripts セクションで定義されているスクリプトを実行する。
+# ------------------------------------------------------------------------------------------------
+# -- --host
+# ホスト名を指定するオプションで、-- は npm に対して追加のオプションを渡すために使う。この場合、serve コマンドに 、
+# --host オプションを渡している。
+# ================================================================================================
+# docker-compose up --force-recreate ,docker-compose run --rm vue を実行した場合
+# 説明: docker-compose up はサービス（コンテナ）を起動するコマンド。--force-recreate オプションは既存のコンテ
+# ナを強制的に再作成する。
+# 実行されるコマンド: docker-compose.yml に記載されている command が優先されて実行される。つまり、
+# command: npm run serve -- --host が実行される。
+# 理由: docker-compose.yml に command が指定されている場合、Dockerfile の CMD は無視され、command が実行さ
+# れるため。
+# 理由: docker-compose run も docker-compose up と同様に、docker-compose.yml の command を優先して実行。
+# live-chat-vuejs/DockerfileのCMD ["npm", "run", "serve"]
