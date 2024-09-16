@@ -2,7 +2,7 @@
   <div class="container">
       <Navbar />
       <!-- ChatWindow.vueにmessagesを渡す -->
-      <ChatWindow :messages="messages" />
+      <ChatWindow @connectCable="connectCable" :messages="messages" />
       <!-- connectCableを実行できるように@connectCable="connectCable"を追加 -->
       <NewChatForm @connectCable="connectCable" />
   </div>
