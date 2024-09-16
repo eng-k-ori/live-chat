@@ -2,7 +2,7 @@
   <div class="container">
       <Navbar />
       <!-- ChatWindow.vueにmessagesを渡す -->
-      <ChatWindow @connectCable="connectCable" :messages="messages" />
+      <ChatWindow @connectCable="connectCable" :messages="formattedMessages" />
       <!-- connectCableを実行できるように@connectCable="connectCable"を追加 -->
       <NewChatForm @connectCable="connectCable" />
   </div>
@@ -15,6 +15,8 @@ import NewChatForm from '../components/NewChatForm'
 import axios from 'axios'
 // Vue.jsでAction Cableを使用するためのライブラリ
 import ActionCable from 'actioncable'
+import { formatDistanceToNow } from 'date-fns'
+import { ja } from 'date-fns/locale'
 
 
 export default {
@@ -24,6 +26,15 @@ export default {
     return {
       // dataプロパティでmessages（オブジェクトが複数入る配列）を定義
       messages: [],
+    }
+  },
+  computed: {
+    formattedMessages () {
+      if (!this.messages.length) { return [] }
+      return this.messages.map(message => {
+        let time = formatDistanceToNow(new Date(message.created_at), { locale: ja })
+        return { ...message, created_at: time }
+      })
     }
   },
   methods: {
