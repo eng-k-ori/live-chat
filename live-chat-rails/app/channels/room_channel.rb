@@ -13,6 +13,7 @@ class RoomChannel < ApplicationCable::Channel
   # 3
   def receive(data)
     user = User.find_by(email: data['email'])
+    # このdataにmessageとemailが含まれています。
     if message = Message.create(content: data['message'], user_id: user.id)
       # 4
       ActionCable.server.broadcast 'room_channel', { message: data['message'], name: user.name, created_at: message.created_at }

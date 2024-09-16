@@ -1,0 +1,90 @@
+<!-- template部分では、Vue.jsがexport defaultで定義されたデータ（propsやdata）を使用して、HTMLを生成・描画する。 -->
+<template>
+  <div class="chat-window">
+    <div v-if="messages" class="messages">
+      <ul v-for="message in messages" :key="message.id">
+        <!-- 1 動的にclass内の文字を変更 -->
+        <li :class="{ received: message.email !== uid, sent: message.email === uid }">
+          <span class="name">{{ message.name }}</span>
+          <span class="message">{{ message.content }}</span>
+          <span class="created-at">{{ message.created_at }}</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</template>
+
+<script>
+// export default の中に定義された props や data は、template 内で使われるデータの元となっている
+export default {
+  // 親コンポーネントからデータを受け取るにはpropsを使用します
+  props: ['messages'],
+  data () {
+    return {
+      uid: localStorage.getItem('uid')
+    }
+  },
+}
+</script>
+
+<style scoped>
+  .chat-window {
+    background: white;
+    padding: 30px 20px;
+    border-bottom: 1px solid #eee;
+  }
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  ul li {
+    display:inline-block;
+    clear: both;
+  }
+  .received .message {
+    background: #eee;
+    padding: 10px;
+    display: inline-block;
+    border-radius: 30px;
+    margin-bottom: 2px;
+    max-width: 400px;
+  }
+  .received {
+    float: left;
+  }
+  .sent {
+    float: right;
+  }
+  .sent .message {
+    background: #677bb4;
+    color: white;
+    padding: 10px;
+    display: inline-block;
+    border-radius: 30px;
+    margin-bottom: 2px;
+    max-width: 400px;
+  }
+  .name {
+    position: relative;
+    margin-right: 6px;
+    display: block;
+    font-size: 13px;
+  }
+  .created-at {
+    display: block;
+    color: #999;
+    font-size: 12px;
+    margin-bottom: 20px;
+    margin-left: 4px;
+  }
+  .messages {
+    max-height: 400px;
+    overflow: auto;
+  }
+</style>
+
+<!-- /*
+@          @@          @@          @@          @@          @@          @@          @@          @
+1
+*/ -->

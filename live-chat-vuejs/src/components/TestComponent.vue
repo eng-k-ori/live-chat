@@ -3,7 +3,7 @@
     これはコンポーネントから表示されています。
     <!-- ======= 👇 ここから追加する ======= -->
     <p>{{ message }}</p>
-    <button @click="onClick">親メソッドを実行するボタン</button> 
+    <button @click="onClick">親メソッドを実行するボタン</button>
   </div>
 </template>
 
