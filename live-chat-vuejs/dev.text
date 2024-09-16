@@ -37,4 +37,9 @@ $ npm i --save @fortawesome/vue-fontawesome@prerelease
 $ npm i --save @fortawesome/fontawesome-svg-core
 $ npm i --save @fortawesome/free-solid-svg-icons
 
+################################################################################################
+送信日時の表示方法を変更する
+$ npm install date-fns --save
+
+
 
